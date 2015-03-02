@@ -17,7 +17,6 @@ public class Main {
      * @param a1
      * @param left1
      * @param right1
-     * @param args the command line arguments
      * @param left2
      * @param right2
      * @param a2
@@ -92,7 +91,23 @@ public class Main {
     //private stativc
     
     public static void sort(Comparable[] a, int left, int right){
-        
+        if (left < right){
+            int m =  left - right/2;
+            Comparable[] a1;
+            for (int i = 0; i < m; i++){
+                a[i] = a1[i];
+            }
+            Comparable[] b;
+            for (int i = m; i < a.length; i++){
+                a[i] = b[i];
+            }
+            for ( int i = 0; i < m; i ++){
+                int temp = (int) a[i]; 
+                if (a1[i] <= a1[i+1]) {
+                    
+                }
+            }
+        }
     }
     
   
