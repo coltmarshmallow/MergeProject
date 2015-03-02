@@ -98,15 +98,26 @@ public class Main {
                 a[i] = a1[i];
             }
             Comparable[] b;
-            for (int i = m; i < a.length; i++){
-                a[i] = b[i];
-            }
+            
+            
             for ( int i = 0; i < m; i ++){
                 int temp = (int) a[i]; 
-                if (a1[i] <= a1[i+1]) {
-                    
+                if (a[i].compareTo(i+1)) {
+                    a[i+1] = a[1];
+                    a[1] = temp;
                 }
             }
+            for ( int i = m; i < a.length; i ++){
+                int temp = (int) a1[i]; 
+                if (a1[i].compareTo(i+1)) {
+                    a1[i+1] = a1[1];
+                    a1[1] = temp;
+                }
+            }
+            
+            
+            merge(a, 0, a.length, a1, 0, a1.length, b, 0);
+            
         }
     }
     
