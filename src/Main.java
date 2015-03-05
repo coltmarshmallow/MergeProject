@@ -67,12 +67,16 @@ public class Main {
             a1[i] = a[i];
         }
         
-        for (int i = 1; i < a.length; i += 2*i){
-            for (int j = 0; j < a.length; j += 2*i){
-                merge(a1, j, 1-(min(j +1,a.length)), a1, j+i, min(j+2*i), b, a.length);
-            }
-            
-        }
+//        for (int i = 1; i < a.length; i += 2*i){
+//            for (int j = 0; j < a.length; j += 2*i){
+//                merge(a1, j, 1-(min(j +1,a.length)), a1, j+i, min(j+2*i), b, a.length);
+//            }
+//            
+//        } 
+        
+        
+        
+        
 //        Comparable[] first = new Comparable[a.length / 2];
 //        Comparable[] second = new Comparable[a.length - first.length];
 //        
@@ -93,23 +97,25 @@ public class Main {
     public static void sort(Comparable[] a, int left, int right){
         if (left < right){
             int m =  left - right/2;
-            Comparable[] a1;
+            Comparable[] a1 = null;
             for (int i = 0; i < m; i++){
                 a[i] = a1[i];
             }
-            Comparable[] b;
+            Comparable[] b = null;
             
             
             for ( int i = 0; i < m; i ++){
                 int temp = (int) a[i]; 
-                if (a[i].compareTo(i+1)) {
+                int comp = a[i].compareTo(i+1);
+                if (comp <= 0) {
                     a[i+1] = a[1];
                     a[1] = temp;
                 }
             }
             for ( int i = m; i < a.length; i ++){
                 int temp = (int) a1[i]; 
-                if (a1[i].compareTo(i+1)) {
+                int comp2 = a1[i].compareTo(i+1);
+                if (comp2 <= 0) {
                     a1[i+1] = a1[1];
                     a1[1] = temp;
                 }
@@ -127,7 +133,7 @@ public class Main {
         Comparable[] a = ArrayUtil.randomIntArray(20 , 100);
         System.out.println(Arrays.toString(a));
         
-        sort(a, 0, a.length-1);
+        sort(a, 2, 16);
         System.out.println(Arrays.toString(a));
         
         //sort(a, 0, a.length);
