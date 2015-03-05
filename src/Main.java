@@ -96,10 +96,11 @@ public class Main {
     
     public static void sort(Comparable[] a, int left, int right){
         if (left < right){
-            int m =  left - right/2;
+            int m =  right/2;
             Comparable[] a1 = null;
             for (int i = 0; i < m; i++){
-                a[i] = a1[i];
+                a1[i] = a[i];
+                
             }
             Comparable[] b = null;
             
@@ -122,7 +123,7 @@ public class Main {
             }
             
             
-            merge(a, 0, a.length, a1, 0, a1.length, b, 0);
+//            merge(a, 0, a.length, a1, 0, a1.length, b, 0);
             
         }
     }
@@ -133,7 +134,7 @@ public class Main {
         Comparable[] a = ArrayUtil.randomIntArray(20 , 100);
         System.out.println(Arrays.toString(a));
         
-        sort(a, 2, 16);
+        sort(a, 0, 20);
         System.out.println(Arrays.toString(a));
         
         //sort(a, 0, a.length);
