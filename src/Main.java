@@ -24,121 +24,101 @@ public class Main {
      * @param a
      */
     
-    public static void merge(Comparable[] a1, int left1, int right1,
-    Comparable[] a2, int left2, int right2,
-    Comparable[] a, int left) {
-        // Merge a1[left1...right1] and a2[left2...right2] into
-        // a[left...] (where both a1 and a2 are sorted).
-        int i = left1, j = left2, k = left;
-        while (i <= right1 && j <= right2) {
-            //both a1 and a2 contain elements to be merged
-            int comp = a1[i].compareTo(a2[j]);
-            if (comp <= 0) {
-                //a1 contains the smallest element, so it is copied
-                //into the output array a
-                a[k++] = a1[i++]; 
-            } else {
-                //a2 contains the smallest element, so it is copied
-                //into the output array a
-                a[k++] = a2[j++]; 
-            }
-        }
-        while (i <= right1) {
-            // All elements in a2 have been sorted
-            //Copy the remainder elements from a1
-        a[k++] = a1[i++]; 
-        }
-        while (j <= right2) {
-            // All elements in a1 have been sorted 
-            //Copy the remainder elements from a2
-            a[k++] = a2[j++]; 
-        }
+
+    private static int []a;
+    public static void main(String[] args){
+        a = getArray();
+        printArray(a);
+        sort2();
+        System.out.println();
+        printArray(a);
     }
     
+    public static void sort(){
+        int []tempArray = new int[a.length];
+        mergeSort(tempArray,0,a.length-1);
+    }
     
-    public static void sort2(Comparable[] a) {
-        if(a.length <= 1){ 
+    public static void sort2(){
+        int []tempArray = new int[a.length];
+        Iterative(tempArray,0,a.length-1);
+    }
+    
+    public static void mergeSort(int []tempArray, int lowerIndex, int upperIndex){
+        if(lowerIndex == upperIndex){
             return;
-        }
-        
-        Comparable[] a1 = null;
-        Comparable[] b = null;
-        for (int i =0; i < a.length; i++){
-            a1[i] = a[i];
-        }
-        
-//        for (int i = 1; i < a.length; i += 2*i){
-//            for (int j = 0; j < a.length; j += 2*i){
-//                merge(a1, j, 1-(min(j +1,a.length)), a1, j+i, min(j+2*i), b, a.length);
-//            }
-//            
-//        } 
-        
-        
-        
-        
-//        Comparable[] first = new Comparable[a.length / 2];
-//        Comparable[] second = new Comparable[a.length - first.length];
-//        
-//        for (int i = 0; i < first.length; i++){
-//            first[i] = a[i];
-//        }
-//        for (int i =0; i < second.length; i++){
-//            second[i] = a[first.length +i];
-//        }
-//        sort2(first);
-//        sort2(second);
-//        
-//        merge(first, 0, (a.length / 2),second, (a.length - first.length), a.length, a, (int) a[0]);
-     }
-    
-    //private stativc
-    
-    public static void sort(Comparable[] a, int left, int right){
-        if (left < right){
-            int m =  right/2;
-            Comparable[] a1 = null;
-            for (int i = 0; i < m; i++){
-                a1[i] = a[i];
-                
-            }
-            Comparable[] b = null;
-            
-            
-            for ( int i = 0; i < m; i ++){
-                int temp = (int) a[i]; 
-                int comp = a[i].compareTo(i+1);
-                if (comp <= 0) {
-                    a[i+1] = a[1];
-                    a[1] = temp;
-                }
-            }
-            for ( int i = m; i < a.length; i ++){
-                int temp = (int) a1[i]; 
-                int comp2 = a1[i].compareTo(i+1);
-                if (comp2 <= 0) {
-                    a1[i+1] = a1[1];
-                    a1[1] = temp;
-                }
-            }
-            
-            
-//            merge(a, 0, a.length, a1, 0, a1.length, b, 0);
-            
+        }else{
+            int mid = (lowerIndex+upperIndex)/2;
+            mergeSort(tempArray, lowerIndex, mid);
+            mergeSort(tempArray, mid+1, upperIndex);
+            merge(tempArray, lowerIndex, mid+1,upperIndex);
         }
     }
     
-  
+    public static void Iterative(int[] tempArray, int lowerIndex, int upperIndex){
+        int size = 10;
+        int[] arrayb = new int[size];
+        for (int i = 0; i < arrayb.length; i++){
+            arrayb[i] = a[i];
+        }
+
+        for (int i = 0; i < a.length; i++){
+            tempArray[i] = a[i];
+        }
+        
+        for (int i = 1; i < a.length; i ++){
+            for (int j = 0; j < a.length; j ++){
+                merge(tempArray, Math.min(j+1, a.length)-1,(j+1), Math.min(j + 2*i, a.length)-1);
+            }
+        }  
+        
+        for (int i = 0; i < tempArray.length; i++){
+             tempArray[i] = a[i];
+        }
+        
+    }
     
-    public static void main(String[] args) {
-        Comparable[] a = ArrayUtil.randomIntArray(20 , 100);
-        System.out.println(Arrays.toString(a));
+    public static void merge(int []tempArray,int lowerIndexCursor,int higherIndex,int upperIndex){
+        int tempIndex=0;
+        int lowerIndex = lowerIndexCursor;
+        int midIndex = higherIndex-1;
+        int totalItems = upperIndex-lowerIndex+1;
+        while(lowerIndex <= midIndex && higherIndex <= upperIndex){
+            if (a[lowerIndex] < a[higherIndex]){
+                tempArray[tempIndex++] = a[lowerIndex++];
+            }else{
+                tempArray[tempIndex++] = a[higherIndex++];
+            }
+        }
         
-        sort(a, 0, 20);
-        System.out.println(Arrays.toString(a));
+        while(lowerIndex <= midIndex){
+            tempArray[tempIndex++] = a[lowerIndex++];
+        }
         
-        //sort(a, 0, a.length);
-        //System.out.print(a);
+        while(higherIndex <= upperIndex){
+            tempArray[tempIndex++] = a[higherIndex++];
+        }
+        
+        for(int i=0;i<totalItems;i++){
+            a[lowerIndexCursor+i] = tempArray[i];
+        }
+    }
+    
+    public static void printArray(int []array){
+        for(int i : array){
+            System.out.print(i+", ");
+        }
+    }
+    
+    public static int[] getArray(){
+        int size=10;
+        int[] array = new int[size];
+        int item = 0;
+        for(int i =0 ;i<size;i++){
+            item = (int)(Math.random()*100);
+            array[i] = item;
+        }
+        return array;
     }
     
 }
