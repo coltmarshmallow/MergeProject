@@ -12,7 +12,10 @@ import static jdk.nashorn.internal.objects.NativeMath.min;
  * @author 1301657
  */
 public class Main {
-
+    
+    private static int comparisons = 0;
+    private static int copies = 0;
+    private static int recursiveCalls = 0;
     /**
      * @param a1
      * @param left1
@@ -29,14 +32,16 @@ public class Main {
     public static void main(String[] args){
         a = getArray();
         printArray(a);
-        sort2();
+        for (int i =0; i < 1000; i++){
+           sort2(); 
+        }
         System.out.println();
         printArray(a);
     }
     
     public static void sort(){
         int []tempArray = new int[a.length];
-        mergeSort(tempArray,0,a.length-1);
+        Recursive(tempArray,0,a.length-1);
     }
     
     public static void sort2(){
@@ -44,13 +49,13 @@ public class Main {
         Iterative(tempArray,0,a.length-1);
     }
     
-    public static void mergeSort(int []tempArray, int lowerIndex, int upperIndex){
-        if(lowerIndex == upperIndex){
-            return;
-        }else{
+    public static void Recursive(int []tempArray, int lowerIndex, int upperIndex){
+        if(lowerIndex != upperIndex){
             int mid = (lowerIndex+upperIndex)/2;
-            mergeSort(tempArray, lowerIndex, mid);
-            mergeSort(tempArray, mid+1, upperIndex);
+            Recursive(tempArray, lowerIndex, mid);
+            recursiveCalls ++;
+            Recursive(tempArray, mid+1, upperIndex);
+            recursiveCalls ++;
             merge(tempArray, lowerIndex, mid+1,upperIndex);
         }
     }
@@ -60,10 +65,12 @@ public class Main {
         int[] arrayb = new int[size];
         for (int i = 0; i < arrayb.length; i++){
             arrayb[i] = a[i];
+            copies ++;
         }
 
         for (int i = 0; i < a.length; i++){
             tempArray[i] = a[i];
+            copies ++;    
         }
         
         for (int i = 1; i < a.length; i ++){
@@ -74,6 +81,7 @@ public class Main {
         
         for (int i = 0; i < tempArray.length; i++){
              tempArray[i] = a[i];
+             copies ++;
         }
         
     }
@@ -84,23 +92,32 @@ public class Main {
         int midIndex = higherIndex-1;
         int totalItems = upperIndex-lowerIndex+1;
         while(lowerIndex <= midIndex && higherIndex <= upperIndex){
+            comparisons ++;
             if (a[lowerIndex] < a[higherIndex]){
+                comparisons ++;
                 tempArray[tempIndex++] = a[lowerIndex++];
+                copies ++;
             }else{
                 tempArray[tempIndex++] = a[higherIndex++];
+                copies ++;
             }
         }
         
         while(lowerIndex <= midIndex){
+            comparisons ++;
             tempArray[tempIndex++] = a[lowerIndex++];
+            copies ++;
         }
         
         while(higherIndex <= upperIndex){
+            comparisons ++;
             tempArray[tempIndex++] = a[higherIndex++];
+            copies ++;
         }
         
         for(int i=0;i<totalItems;i++){
             a[lowerIndexCursor+i] = tempArray[i];
+            copies ++;
         }
     }
     
@@ -108,10 +125,14 @@ public class Main {
         for(int i : array){
             System.out.print(i+", ");
         }
+        
+        System.out.println("Comparisons : " + comparisons/1000);
+        System.out.println("Copies : " + copies/1000);
+        System.out.println("Recursive Calls : " + recursiveCalls/1000);
     }
     
     public static int[] getArray(){
-        int size=10;
+        int size= 20;
         int[] array = new int[size];
         int item = 0;
         for(int i =0 ;i<size;i++){
