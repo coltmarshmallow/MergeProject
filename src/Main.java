@@ -33,7 +33,7 @@ public class Main {
         a = getArray();
         printArray(a);
         for (int i =0; i < 1000; i++){
-           sort2(); 
+           sort(); 
         }
         System.out.println();
         printArray(a);
@@ -61,7 +61,7 @@ public class Main {
     }
     
     public static void Iterative(int[] tempArray, int lowerIndex, int upperIndex){
-        int size = 10;
+        int size = 50;
         int[] arrayb = new int[size];
         for (int i = 0; i < arrayb.length; i++){
             arrayb[i] = a[i];
@@ -132,7 +132,7 @@ public class Main {
     }
     
     public static int[] getArray(){
-        int size= 20;
+        int size= 5;
         int[] array = new int[size];
         int item = 0;
         for(int i =0 ;i<size;i++){
